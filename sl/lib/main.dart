@@ -15,19 +15,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData _buildTheme(brightness) {
-  var baseTheme = ThemeData(brightness: brightness);
+      var baseTheme = ThemeData(brightness: brightness);
 
-  return baseTheme.copyWith(
-    textTheme: GoogleFonts.openSansTextTheme(baseTheme.textTheme),
-  );
-}
+      return baseTheme.copyWith(
+        textTheme: GoogleFonts.openSansTextTheme(baseTheme.textTheme),
+      );
+    }
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => APICalls()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme:_buildTheme(Brightness.dark),
+        theme: _buildTheme(Brightness.dark),
         home: const HomePage(),
       ),
     );
@@ -72,76 +73,82 @@ class HomePage extends StatelessWidget {
                 // height: MediaQuery.of(context).size.height * 0.08,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      data.defaultOption == SwitchOption.graph
-                          ? Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () =>
-                                      data.switchgraph(GraphList.line),
-                                  icon: const Icon(Icons.line_axis),
-                                  color: CupertinoColors.white,
-                                ),
-                                IconButton(
-                                  onPressed: () =>
-                                      data.switchgraph(GraphList.pie),
-                                  icon: const Icon(CupertinoIcons.chart_pie),
-                                  color: CupertinoColors.white,
-                                ),
-                                IconButton(
-                                  onPressed: () =>
-                                      data.switchgraph(GraphList.bar),
-                                  icon: const Icon(Icons.bar_chart_sharp),
-                                  color: CupertinoColors.white,
-                                ),
-                                IconButton(
-                                  onPressed: () =>
-                                      data.switchgraph(GraphList.scatter),
-                                  icon: const Icon(Icons.scatter_plot),
-                                  color: CupertinoColors.white,
-                                ),
-                                IconButton(
-                                  onPressed: () =>
-                                      data.switchgraph(GraphList.histogram),
-                                  icon: const Icon(CupertinoIcons.chart_bar),
-                                  color: CupertinoColors.white,
-                                ),
-                              ],
-                            )
-                          : TextButton(
+                  child: data.load
+                      ? const Center(child: CircularProgressIndicator())
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            data.defaultOption == SwitchOption.graph
+                                ? Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () =>
+                                            data.switchgraph(GraphList.line),
+                                        icon: const Icon(Icons.line_axis),
+                                        color: CupertinoColors.white,
+                                      ),
+                                      IconButton(
+                                        onPressed: () =>
+                                            data.switchgraph(GraphList.pie),
+                                        icon: const Icon(
+                                            CupertinoIcons.chart_pie),
+                                        color: CupertinoColors.white,
+                                      ),
+                                      IconButton(
+                                        onPressed: () =>
+                                            data.switchgraph(GraphList.bar),
+                                        icon: const Icon(Icons.bar_chart_sharp),
+                                        color: CupertinoColors.white,
+                                      ),
+                                      IconButton(
+                                        onPressed: () =>
+                                            data.switchgraph(GraphList.scatter),
+                                        icon: const Icon(Icons.scatter_plot),
+                                        color: CupertinoColors.white,
+                                      ),
+                                      IconButton(
+                                        onPressed: () => data
+                                            .switchgraph(GraphList.histogram),
+                                        icon: const Icon(
+                                            CupertinoIcons.chart_bar),
+                                        color: CupertinoColors.white,
+                                      ),
+                                    ],
+                                  )
+                                : TextButton(
+                                    onPressed: () =>
+                                        data.switchView(SwitchOption.table),
+                                    child: Icon(
+                                      CupertinoIcons.table,
+                                      color: data.defaultOption ==
+                                              SwitchOption.table
+                                          ? CupertinoColors.activeBlue
+                                          : CupertinoColors.systemGrey,
+                                    ),
+                                  ),
+                            TextButton(
                               onPressed: () =>
-                                  data.switchView(SwitchOption.table),
+                                  data.switchView(SwitchOption.graph),
                               child: Icon(
-                                CupertinoIcons.table,
-                                color: data.defaultOption == SwitchOption.table
+                                CupertinoIcons.graph_square,
+                                color: data.defaultOption == SwitchOption.graph
                                     ? CupertinoColors.activeBlue
                                     : CupertinoColors.systemGrey,
                               ),
                             ),
-                      TextButton(
-                        onPressed: () => data.switchView(SwitchOption.graph),
-                        child: Icon(
-                          CupertinoIcons.graph_square,
-                          color: data.defaultOption == SwitchOption.graph
-                              ? CupertinoColors.activeBlue
-                              : CupertinoColors.systemGrey,
+                            data.defaultOption == SwitchOption.graph
+                                ? TextButton(
+                                    onPressed: () =>
+                                        data.switchView(SwitchOption.table),
+                                    child: const Icon(
+                                        Icons.arrow_back_ios_new_rounded),
+                                  )
+                                : TextButton(
+                                    onPressed: () => data.clearX(),
+                                    child: const Text("Clear"))
+                          ],
                         ),
-                      ),
-                      data.defaultOption == SwitchOption.graph
-                          ? TextButton(
-                              onPressed: () =>
-                                  data.switchView(SwitchOption.table),
-                              child:
-                                  const Icon(Icons.arrow_back_ios_new_rounded),
-                            )
-                          : TextButton(
-                              onPressed: () => data.clearX(),
-                              child: const Text("Clear"))
-                    ],
-                  ),
                 ),
               ),
               const SizedBox(height: 10),

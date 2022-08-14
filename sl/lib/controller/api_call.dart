@@ -18,6 +18,7 @@ class APICalls extends ChangeNotifier {
   List<Map<String, dynamic>> firstData = [];
   List<Map<String, dynamic>> resutlData = [];
   TextEditingController controller = TextEditingController();
+  bool load = false;
   void clearX() {
     resutlData.clear();
     notifyListeners();
@@ -29,10 +30,14 @@ class APICalls extends ChangeNotifier {
   }
 
   void userSearchCall() async {
+    load = true;
+    notifyListeners();
     resutlData.clear();
+
     final url = Uri.parse("http://127.0.0.1:8000/query/${controller.text}");
     final response = await http.get(url);
     resutlData = List.from(json.decode(response.body));
+    load = false;
     notifyListeners();
   }
 
