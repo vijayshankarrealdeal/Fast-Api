@@ -14,19 +14,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    ThemeData _buildTheme(brightness) {
+  var baseTheme = ThemeData(brightness: brightness);
+
+  return baseTheme.copyWith(
+    textTheme: GoogleFonts.openSansTextTheme(baseTheme.textTheme),
+  );
+}
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => APICalls()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          textTheme: GoogleFonts.openSansTextTheme(textTheme),
-          primarySwatch: Colors.blue,
-          scaffoldBackgroundColor: CupertinoColors.darkBackgroundGray,
-          brightness: Brightness.dark,
-        ),
+        theme:_buildTheme(Brightness.dark),
         home: const HomePage(),
       ),
     );

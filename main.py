@@ -1,12 +1,11 @@
 from fastapi import FastAPI
 import json
-from gpt import GPTQuery
+from gpt import GPTQuery,key
 from sqlalchemy import create_engine
 
 app = FastAPI()
 
 
-key = "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"
 gptCall = GPTQuery(key)
 db = create_engine('postgresql://postgres:1234567890@localhost:5432/slab')
 

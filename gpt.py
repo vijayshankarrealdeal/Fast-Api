@@ -1,5 +1,6 @@
 import openai
 
+key = "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"
 
 class GPTQuery:
     def __init__(self, key):
