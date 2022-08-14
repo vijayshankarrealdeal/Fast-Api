@@ -6,8 +6,6 @@ from sqlalchemy import create_engine
 app = FastAPI()
 
 
-f = open('./sample1.json')
-data = json.load(f)
 key = "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"
 gptCall = GPTQuery(key)
 db = create_engine('postgresql://postgres:1234567890@localhost:5432/slab')
@@ -21,13 +19,6 @@ def index(user_query:str):
     return data
 
 
-@app.get('/')
-def whole_Data():
-    whole = []
-    for d in data:
-        whole.append(d)
-        
-    return whole
     
 
 
