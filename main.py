@@ -1,13 +1,24 @@
 from fastapi import FastAPI
-from typing import Optional
 import json
+from gpt import GPTQuery
+from sqlalchemy import create_engine
 
 app = FastAPI()
 
 
 f = open('./sample1.json')
 data = json.load(f)
+key = "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"
+gptCall = GPTQuery(key)
+db = create_engine('postgresql://postgres:1234567890@localhost:5432/slab')
 
+@app.get('/{user_query}')
+def index(user_query:str):
+    statement = gptCall.make_sql_statement(user_query)
+    result_set = db.execute(statement)
+    print(statement)
+    data = [row._asdict() for row in result_set]
+    return data
 
 
 @app.get('/')
