@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 app = FastAPI()
 
 
-key = "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"
+key = "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"
 gptCall = GPTQuery(key)
 db = create_engine('postgresql://postgres:1234567890@localhost:5432/slab')
 
